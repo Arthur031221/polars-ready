@@ -65,8 +65,11 @@ class PandasVisitor(ast.NodeVisitor):
 
     def visit_Assign(self, node: ast.Assign) -> None:
         self.visit(node.value)
-        if self.from_frame(node.value):
-            for target in node.targets:
+        is_frame = self.from_frame(node.value)
+        for target in node.targets:
+            if isinstance(target, ast.Name):
+                self.frames.discard(target.id)
+            if is_frame:
                 for name in ast.walk(target):
                     if isinstance(name, ast.Name):
                         self.frames.add(name.id)
@@ -74,8 +77,11 @@ class PandasVisitor(ast.NodeVisitor):
     def visit_AnnAssign(self, node: ast.AnnAssign) -> None:
         if node.value:
             self.visit(node.value)
-            if isinstance(node.target, ast.Name) and self.from_frame(node.value):
-                self.frames.add(node.target.id)
+            if isinstance(node.target, ast.Name):
+                is_frame = self.from_frame(node.value)
+                self.frames.discard(node.target.id)
+                if is_frame:
+                    self.frames.add(node.target.id)
 
     def visit_Call(self, node: ast.Call) -> None:
         name = self.pandas_name(node)

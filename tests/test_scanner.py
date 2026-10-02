@@ -18,6 +18,18 @@ class ScannerTests(unittest.TestCase):
         text = "import pandas as pd\nclass Other: pass\na = Other()\na.apply(lambda x:x)\n"
         self.assertEqual(scan_source(text, "x.py"), [])
 
+    def test_reassignment_clears_frame_tracking(self):
+        text = (
+            "import pandas as pd\n"
+            "frame = pd.read_csv('x.csv')\n"
+            "frame = load_settings()\n"
+            "frame.groupby('region')\n"
+            "frame: object = load_settings()\n"
+            "frame.apply(callback)\n"
+        )
+        found = scan_source(text, "x.py")
+        self.assertEqual([finding["rule"] for finding in found], ["read_csv"])
+
     def test_index_and_timezone_traps(self):
         text = "from pandas import DataFrame as DF\nf = DF({'x':[1]})\nf.loc[0]\nf['x'].dt.tz_localize('UTC')\n"
         found = scan_source(text, "x.py")
