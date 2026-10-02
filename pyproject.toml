@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "polars-ready"
+version = "0.1.0"
+description = "Read-only Pandas to Polars migration audit for Python files and notebooks"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{name = "Arthur031221"}]
+keywords = ["pandas", "polars", "migration", "static-analysis", "cli"]
+classifiers = ["Programming Language :: Python :: 3", "Environment :: Console"]
+
+[project.scripts]
+polars-ready = "polars_ready.cli:main"
+
+[project.urls]
+Repository = "https://github.com/Arthur031221/polars-ready"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/polars_ready"]
