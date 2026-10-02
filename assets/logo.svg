@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">polars-ready</title>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="#123B52"/>
+  <g fill="#EAF8FC">
+    <rect x="13" y="16" width="18" height="6" rx="3"/>
+    <rect x="13" y="29" width="14" height="6" rx="3"/>
+    <rect x="13" y="42" width="18" height="6" rx="3"/>
+  </g>
+  <path d="m35 34 6 6 11-14" fill="none" stroke="#EAF8FC" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/>
+</svg>
