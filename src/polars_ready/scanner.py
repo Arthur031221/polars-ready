@@ -130,6 +130,8 @@ def scan_path(path: Path) -> dict:
             text = file.read_text(encoding="utf-8")
             if file.suffix == ".ipynb":
                 notebook = json.loads(text)
+                if not isinstance(notebook, dict):
+                    raise ValueError("notebook must be a JSON object")
                 cells = notebook.get("cells", [])
                 for number, cell in enumerate(cells, 1):
                     if cell.get("cell_type") != "code":

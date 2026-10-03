@@ -45,6 +45,16 @@ class ScannerTests(unittest.TestCase):
             self.assertEqual(report["findings"][0]["cell"], 1)
             self.assertEqual(len(report["errors"]), 1)
 
+    def test_notebook_json_root_must_be_an_object(self):
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / "invalid.ipynb"
+            path.write_text("[]")
+
+            report = scan_path(path)
+
+            self.assertEqual(report["files_scanned"], 0)
+            self.assertEqual(report["errors"], [{"file": str(path), "error": "notebook must be a JSON object"}])
+
     def test_cli_json_and_blocker_exit(self):
         with tempfile.TemporaryDirectory() as root:
             path = Path(root) / "script.py"
